@@ -1,0 +1,12 @@
+{
+  "name": "tysts",
+  "version": "0.0.0",
+  "description": "Test framework for TypeScript types",
+  "author": "Sasha Koss <koss@nocorp.me>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.13.1",
+  "files": [
+    "*.md",
+    "lib"
+  ]
+}

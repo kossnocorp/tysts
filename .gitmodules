@@ -1,0 +1,3 @@
+[submodule "submodules/tdollar"]
+	path = submodules/tdollar
+	url = git@github.com:kossnocorp/tdollar.git

@@ -1,0 +1,34 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      tdollar:
+        specifier: workspace:^
+        version: link:submodules/tdollar
+    devDependencies:
+      typescript:
+        specifier: 5.9.0-beta
+        version: 5.9.0-beta
+
+  submodules/tdollar:
+    devDependencies:
+      typescript:
+        specifier: 5.9.0-beta
+        version: 5.9.0-beta
+
+packages:
+
+  typescript@5.9.0-beta:
+    resolution: {integrity: sha512-p91qoTdwWKj9YEBYavmGiBn0DF4OBElzw4pW4oPbK4HeCfr/SDz9+yviVWshZXGvGvFCJ3AVQ+J7F1UZXc23QQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+snapshots:
+
+  typescript@5.9.0-beta: {}

@@ -1,16 +1,24 @@
 import type { $ } from "tdollar";
 
-export const ty: Ty = function tyst<Type>(): Tyst.Builder.Signature<Type> {
-  return Object.assign(
-    (() => ({})) as unknown as Tyst.Signature<Type, "received">,
-    { is: () => {} }
+export const ty: Ty = function ty<Type>(): Tyst.Builder.Signature<
+  Tyst.Type<Type>
+> {
+  const signature: Tyst.Builder.Signature<Tyst.Type<Type>> = Object.assign(
+    (() => ({})) as unknown as Tyst.Signature<Tyst.Type<Type>, "received">,
+    { is: () => signature }
   );
+  return signature;
 };
 
 interface Ty {
-  <Type>(value: Type): Tyst.Builder.Signature<Tyst.Type<Type>>;
+  <Type>(
+    value: Type,
+    callback?: Tyst.Builder.Callback<Type>
+  ): Tyst.Builder.Signature<Tyst.Type<Type>>;
 
-  <Type>(): Tyst.Builder.Signature<Tyst.Type<Type>>;
+  <Type>(callback?: Tyst.Builder.Callback<Type>): Tyst.Builder.Signature<
+    Tyst.Type<Type>
+  >;
 }
 
 namespace Tyst {
@@ -20,6 +28,10 @@ namespace Tyst {
       Position extends Tyst.Signature.Position = "expected"
     > extends Tyst.Signature<Type, Position> {
       is: Tyst.Is<Type>;
+    }
+
+    export interface Callback<Type> {
+      ($: Builder.Signature<Type, "received">): void;
     }
   }
 
@@ -44,7 +56,6 @@ namespace Tyst {
     ? Unknown
     : Type;
 
-  // export namespace Type {
   type Any = $.Branded<"any", typeof any>;
   declare const any: unique symbol;
 
@@ -53,7 +64,6 @@ namespace Tyst {
 
   type Unknown = $.Branded<"unknown", typeof unknown>;
   declare const unknown: unique symbol;
-  // }
 
   export type Is<Type> = Is.Exact<Type>;
 
@@ -195,5 +205,20 @@ namespace Tyst {
         ty<string | undefined>()
       )
       .is(ty<undefined>());
+  }
+
+  // Nested
+  {
+    ty<undefined>(($) => {
+      $.is(ty<undefined>());
+      // @ts-expect-error
+      $.is(ty<string | undefined>());
+    });
+
+    ty(undefined, ($) => {
+      $.is(ty<undefined>());
+      // @ts-expect-error
+      $.is(ty<string | undefined>());
+    });
   }
 }

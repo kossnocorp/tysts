@@ -23,16 +23,12 @@ export interface Tyst<
 namespace Tyst {
   export interface Signature<Type, Position extends Signature.Position> {
     (
-      phantom: SignaturePhantom,
       // Allows to differentiate top types and proper types.
       type: Signature.Type<Type>
     ): // Allows to differentiate unions of different size,
     // i.e. (`string | undefined` and `string`)
     Signature.Type<Type>;
   }
-
-  type SignaturePhantom = typeof signaturePhantom;
-  declare const signaturePhantom: unique symbol;
 
   export namespace Signature {
     export type Position = "expected" | "received";

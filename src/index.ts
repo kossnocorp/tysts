@@ -1,6 +1,6 @@
 import type { $ } from "tdollar";
 
-export const ty: Ty = function tyst<Type>(): Tyst<Type> {
+export const ty: Ty = function tyst<Type>(): Tyst.Builder.Signature<Type> {
   return Object.assign(
     (() => ({})) as unknown as Tyst.Signature<Type, "received">,
     { is: () => {} }
@@ -8,48 +8,52 @@ export const ty: Ty = function tyst<Type>(): Tyst<Type> {
 };
 
 interface Ty {
-  <Type>(value: Type): Tyst<Type>;
+  <Type>(value: Type): Tyst.Builder.Signature<Tyst.Type<Type>>;
 
-  <Type>(): Tyst<Type>;
-}
-
-export interface Tyst<
-  Type,
-  Position extends Tyst.Signature.Position = "expected"
-> extends Tyst.Signature<Type, Position> {
-  is: Tyst.Is<Type>;
+  <Type>(): Tyst.Builder.Signature<Tyst.Type<Type>>;
 }
 
 namespace Tyst {
+  export namespace Builder {
+    export interface Signature<
+      Type,
+      Position extends Tyst.Signature.Position = "expected"
+    > extends Tyst.Signature<Type, Position> {
+      is: Tyst.Is<Type>;
+    }
+  }
+
   export interface Signature<Type, Position extends Signature.Position> {
     (
       // Allows to differentiate top types and proper types.
-      type: Signature.Type<Type>
+      type: Type
     ): // Allows to differentiate unions of different size,
-    // i.e. (`string | undefined` and `string`)
-    Signature.Type<Type>;
+    // i.e. (`string | undefined` and `string`) void //
+    Type;
   }
 
   export namespace Signature {
     export type Position = "expected" | "received";
-
-    export type Type<Type> = $.Is.Any<Type> extends true
-      ? Any
-      : $.Is.Never<Type> extends true
-      ? Never
-      : $.Is.Unknown<Type> extends true
-      ? Unknown
-      : Type;
-
-    type Any = $.Branded<"any", typeof any>;
-    declare const any: unique symbol;
-
-    type Never = $.Branded<"never", typeof never>;
-    declare const never: unique symbol;
-
-    type Unknown = $.Branded<"unknown", typeof unknown>;
-    declare const unknown: unique symbol;
   }
+
+  export type Type<Type> = $.Is.Any<Type> extends true
+    ? Any
+    : $.Is.Never<Type> extends true
+    ? Never
+    : $.Is.Unknown<Type> extends true
+    ? Unknown
+    : Type;
+
+  // export namespace Type {
+  type Any = $.Branded<"any", typeof any>;
+  declare const any: unique symbol;
+
+  type Never = $.Branded<"never", typeof never>;
+  declare const never: unique symbol;
+
+  type Unknown = $.Branded<"unknown", typeof unknown>;
+  declare const unknown: unique symbol;
+  // }
 
   export type Is<Received> = Is.Exact<Received>;
 

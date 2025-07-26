@@ -9,6 +9,31 @@
     "*.md",
     "lib"
   ],
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "publishConfig": {
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": {
+        "require": {
+          "types": "./index.d.cts",
+          "default": "./index.cjs"
+        },
+        "import": {
+          "types": "./index.d.ts",
+          "default": "./index.js"
+        }
+      }
+    }
+  },
   "dependencies": {
     "tdollar": "workspace:^"
   },

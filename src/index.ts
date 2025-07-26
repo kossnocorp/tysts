@@ -55,11 +55,11 @@ namespace Tyst {
   declare const unknown: unique symbol;
   // }
 
-  export type Is<Received> = Is.Exact<Received>;
+  export type Is<Type> = Is.Exact<Type>;
 
   export namespace Is {
-    export interface Exact<Received> {
-      (signature: Signature<Received, "received">): void;
+    export interface Exact<Type> {
+      (signature: Signature<Type, "received">): Builder.Signature<Type>;
     }
   }
 }
@@ -184,5 +184,16 @@ namespace Tyst {
     variance = ty<never>();
     // @ts-expect-error
     variance = ty<string>();
+  }
+
+  // Chaining
+  {
+    ty<undefined>()
+      .is(ty<undefined>())
+      .is(
+        // @ts-expect-error
+        ty<string | undefined>()
+      )
+      .is(ty<undefined>());
   }
 }

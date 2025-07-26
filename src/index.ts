@@ -1,24 +1,19 @@
 import type { $ } from "tdollar";
 
-export const ty: Ty = function ty<Type>(): Tyst.Builder.Signature<
-  Tyst.Type<Type>
-> {
-  const signature: Tyst.Builder.Signature<Tyst.Type<Type>> = Object.assign(
-    (() => ({})) as unknown as Tyst.Signature<Tyst.Type<Type>, "received">,
-    { is: () => signature }
-  );
-  return signature;
-};
+// TODO: Replicate the structure, so that it works in runtime
+export const ty = {} as Ty;
 
 interface Ty {
-  <Type>(
-    value: Type,
-    callback?: Tyst.Builder.Callback<Type>
-  ): Tyst.Builder.Signature<Tyst.Type<Type>>;
+  <RawType>(
+    value: RawType,
+    callback?: Tyst.Builder.Callback<RawType>
+  ): Tyst.Builder.Signature<Tyst.Type<RawType>>;
 
-  <Type>(callback?: Tyst.Builder.Callback<Type>): Tyst.Builder.Signature<
-    Tyst.Type<Type>
+  <RawType>(callback?: Tyst.Builder.Callback<RawType>): Tyst.Builder.Signature<
+    Tyst.Type<RawType>
   >;
+
+  extends<RawType>(): Tyst.Signature.Supertype<RawType, "expected">;
 }
 
 namespace Tyst {
@@ -40,37 +35,83 @@ namespace Tyst {
       // Allows to differentiate top types and proper types.
       type: Type
     ): // Allows to differentiate unions of different size,
-    // i.e. (`string | undefined` and `string`) void //
+    // i.e. (`string | undefined` and `string`).
     Type;
+
+    [signaturePhantom]: true;
   }
+
+  declare const signaturePhantom: unique symbol;
 
   export namespace Signature {
     export type Position = "expected" | "received";
+
+    export interface Supertype<RawType, Position extends Signature.Position> {
+      (
+        // Allows to differentiate types.
+        type: RawType
+      ): void;
+
+      [supertypePhantom]: true;
+    }
+
+    declare const supertypePhantom: unique symbol;
+
+    export type SupertypeWIP<Type> = Type extends Type.Any
+      ? Type.Any.Supertype
+      : Type extends Type.Unknown
+      ? Type.Unknown.Supertype
+      : Type extends Type.Never
+      ? Type.Never.Supertype
+      : never;
   }
 
-  export type Type<Type> = $.Is.Any<Type> extends true
-    ? Any
-    : $.Is.Never<Type> extends true
-    ? Never
-    : $.Is.Unknown<Type> extends true
-    ? Unknown
-    : Type;
+  export type Type<RawType> = $.Is.Any<RawType> extends true
+    ? Type.Any
+    : $.Is.Unknown<RawType> extends true
+    ? Type.Unknown
+    : $.Is.Never<RawType> extends true
+    ? Type.Never
+    : RawType;
 
-  type Any = $.Branded<"any", typeof any>;
-  declare const any: unique symbol;
+  export namespace Type {
+    export type Supertype<RawType> = RawType;
 
-  type Never = $.Branded<"never", typeof never>;
-  declare const never: unique symbol;
+    export type Any = $.Branded<"any", typeof any>;
+    declare const any: unique symbol;
 
-  type Unknown = $.Branded<"unknown", typeof unknown>;
-  declare const unknown: unique symbol;
-
-  export type Is<Type> = Is.Exact<Type>;
-
-  export namespace Is {
-    export interface Exact<Type> {
-      (signature: Signature<Type, "received">): Builder.Signature<Type>;
+    export namespace Any {
+      export type Supertype =
+        | Signature<any, "expected">
+        | Signature<unknown, "expected">;
     }
+
+    export type Unknown = $.Branded<"unknown", typeof unknown>;
+    declare const unknown: unique symbol;
+
+    export namespace Unknown {
+      // export type Narrows = Type.
+      type Test = $.Is.Unknown<{} | null | undefined>;
+
+      export type Supertype =
+        | Signature<any, "expected">
+        | Signature<unknown, "expected">;
+    }
+
+    export type Never = $.Branded<"never", typeof never>;
+    declare const never: unique symbol;
+
+    export namespace Never {
+      export type Supertype = Signature<any, "expected">;
+    }
+  }
+
+  export interface Is<Type> {
+    (
+      signature:
+        | Signature<Type, "received">
+        | Signature.Supertype<Type, "received">
+    ): Builder.Signature<Type>;
   }
 }
 
@@ -220,5 +261,27 @@ namespace Tyst {
       // @ts-expect-error
       $.is(ty<string | undefined>());
     });
+  }
+
+  // ty.extends
+  {
+    // any
+    {
+      ty<any>().is(ty.extends<any>());
+
+      ty<unknown>().is(ty.extends<any>());
+      ty<never>().is(ty.extends<any>());
+      ty<string>().is(ty.extends<any>());
+    }
+
+    // TODO: More tysts
+
+    // Union
+    {
+      ty<string>().is(ty.extends<string | undefined>());
+
+      // @ts-expect-error
+      ty<string>().is(ty.extends<number | undefined>());
+    }
   }
 }

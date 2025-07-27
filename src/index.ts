@@ -15,10 +15,16 @@ interface Ty {
 
   exactly<RawType>(): Tyst.Signature<Tyst.Type<RawType>, "expected">;
 
-  // TODO: It is not subtype, really, but I can't find a better name yet.
-  satisfies<RawType>(): Tyst.Signature.Subtype<RawType, "expected">;
+  satisfies<RawType>(): Tyst.Signature.Supertype<RawType, "expected">;
 
-  extends<RawType>(): Tyst.Signature.Supertype<RawType, "expected">;
+  satisfiedBy<RawType>(): Tyst.Signature.Subtype<RawType, "expected">;
+
+  extends<RawType>(): Tyst.Signature.DistributiveSupertype<RawType, "expected">;
+
+  extendedBy<RawType>(): Tyst.Signature.DistributiveSubtype<
+    RawType,
+    "expected"
+  >;
 }
 
 namespace Tyst {
@@ -53,13 +59,26 @@ namespace Tyst {
   export namespace Signature {
     export type Position = "expected" | "received";
 
-    //#region Subtype
+    //#region Supertype
 
-    export interface Subtype<RawType, Position extends Signature.Position> {
+    export interface Supertype<RawType, Position extends Signature.Position> {
       (
         // Allows to replicate satisfies behavior.
         type: RawType
       ): void;
+
+      [supertypePhantom]: true;
+    }
+
+    declare const supertypePhantom: unique symbol;
+
+    //#endregion
+
+    //#region Subtype
+
+    export interface Subtype<RawType, Position extends Signature.Position> {
+      // Allows to replicate flipped satisfies behavior.
+      type: RawType;
 
       [subtypePhantom]: true;
     }
@@ -68,9 +87,12 @@ namespace Tyst {
 
     //#endregion
 
-    //#region Supertype
+    //#region DistributiveSupertype
 
-    export interface Supertype<RawType, Position extends Signature.Position> {
+    export interface DistributiveSupertype<
+      RawType,
+      Position extends Signature.Position
+    > extends Supertype<RawType, Position> {
       (
         // Allows to replicate extends's behavior. Note that it includes both
         // then and else branches. E.g. `any extends never ? true : false`
@@ -80,21 +102,51 @@ namespace Tyst {
         type: RawType
       ): void;
 
-      [supertypePhantom]: true;
+      [distributiveSupertypePhantom]: true;
     }
 
-    export namespace Supertype {
-      export type Arg<
-        RawType,
-        Position extends Signature.Position
-      > = $.Is.Any<RawType> extends true
-        ? // As any doesn't satisfy never, but any extends never, we have to add
-          // `never` supertype to union to make the matcher work correctly.
-          Supertype<any, Position> | Supertype<never, Position>
-        : Supertype<RawType, Position>;
+    declare const distributiveSupertypePhantom: unique symbol;
+
+    export namespace DistributiveSupertype {
+      export type Arg<RawType, Position extends Signature.Position> =
+        // As `any` doesn't satisfy `never`, but `any extends never` resolves
+        // both branches, we have to add `never` supertype to union to make
+        // the matcher work correctly.
+        $.Is.Any<RawType> extends true
+          ?
+              | DistributiveSupertype<any, Position>
+              | DistributiveSupertype<never, Position>
+          : DistributiveSupertype<RawType, Position>;
     }
 
-    declare const supertypePhantom: unique symbol;
+    //#endregion
+
+    //#region DistributiveSubtype
+
+    export interface DistributiveSubtype<
+      RawType,
+      Position extends Signature.Position
+    > {
+      // Allows to replicate flipped extends behavior.
+      type: RawType;
+
+      [distributiveSubtypePhantom]: true;
+    }
+
+    declare const distributiveSubtypePhantom: unique symbol;
+
+    export namespace DistributiveSubtype {
+      export type Arg<RawType, Position extends Signature.Position> =
+        // Naive approach checking if `never` is extended by `any` results in
+        // `Type 'any' is not assignable to type 'never'.` due to the fact that
+        // `any` is not assignable to `never`. It conforms `satisfiedBy`
+        // behavior, but since `any extends never` resolves both branches, we
+        // have to to wrap `never` in `Tyst.Type`, so that it is treated as
+        // a proper type.
+        $.Is.Never<RawType> extends true
+          ? DistributiveSubtype<Tyst.Type<never>, Position>
+          : DistributiveSubtype<RawType, Position>;
+    }
 
     //#endregion
   }
@@ -138,8 +190,10 @@ namespace Tyst {
     (
       signature:
         | Signature<Type, "received">
+        | Signature.Supertype<Tyst.Type.Raw<Type>, "received">
         | Signature.Subtype<Tyst.Type.Raw<Type>, "received">
-        | Signature.Supertype.Arg<Tyst.Type.Raw<Type>, "received">
+        | Signature.DistributiveSupertype.Arg<Tyst.Type.Raw<Type>, "received">
+        | Signature.DistributiveSubtype.Arg<Tyst.Type.Raw<Type>, "received">
     ): Builder.Signature<Type>;
 
     undefined: Is.Undefined<Type>;

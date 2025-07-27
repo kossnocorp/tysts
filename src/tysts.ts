@@ -467,6 +467,306 @@ import { ty } from "./index.ts";
   }
 }
 
+// ty.satisfiedBy
+{
+  // any
+  {
+    ty<any>().is(ty.satisfiedBy<any>());
+    ty<unknown>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<any>());
+    ty<void>().is(ty.satisfiedBy<any>());
+    ty<null>().is(ty.satisfiedBy<any>());
+    ty<undefined>().is(ty.satisfiedBy<any>());
+    ty<$.Value>().is(ty.satisfiedBy<any>());
+    ty<{}>().is(ty.satisfiedBy<any>());
+    ty<object>().is(ty.satisfiedBy<any>());
+
+    ty<any>().is(ty.satisfiedBy<any>());
+    ty<any>().is(ty.satisfiedBy<unknown>());
+    ty<any>().is(ty.satisfiedBy<never>());
+    ty<any>().is(ty.satisfiedBy<void>());
+    ty<any>().is(ty.satisfiedBy<null>());
+    ty<any>().is(ty.satisfiedBy<undefined>());
+    ty<any>().is(ty.satisfiedBy<$.Value>());
+    ty<any>().is(ty.satisfiedBy<{}>());
+    ty<any>().is(ty.satisfiedBy<object>());
+  }
+
+  // unknown
+  {
+    ty<any>().is(ty.satisfiedBy<unknown>());
+    ty<unknown>().is(ty.satisfiedBy<unknown>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<unknown>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<unknown>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<unknown>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<unknown>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<unknown>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<unknown>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<unknown>());
+
+    ty<unknown>().is(ty.satisfiedBy<any>());
+    ty<unknown>().is(ty.satisfiedBy<unknown>());
+    ty<unknown>().is(ty.satisfiedBy<never>());
+    ty<unknown>().is(ty.satisfiedBy<void>());
+    ty<unknown>().is(ty.satisfiedBy<null>());
+    ty<unknown>().is(ty.satisfiedBy<undefined>());
+    ty<unknown>().is(ty.satisfiedBy<$.Value>());
+    ty<unknown>().is(ty.satisfiedBy<{}>());
+    ty<unknown>().is(ty.satisfiedBy<object>());
+  }
+
+  // never
+  {
+    ty<any>().is(ty.satisfiedBy<never>());
+    ty<unknown>().is(ty.satisfiedBy<never>());
+    ty<never>().is(ty.satisfiedBy<never>());
+    ty<void>().is(ty.satisfiedBy<never>());
+    ty<null>().is(ty.satisfiedBy<never>());
+    ty<undefined>().is(ty.satisfiedBy<never>());
+    ty<$.Value>().is(ty.satisfiedBy<never>());
+    ty<{}>().is(ty.satisfiedBy<never>());
+    ty<object>().is(ty.satisfiedBy<never>());
+
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<unknown>());
+    ty<never>().is(ty.satisfiedBy<never>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<object>());
+  }
+
+  // void
+  {
+    ty<any>().is(ty.satisfiedBy<void>());
+    ty<unknown>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<void>());
+    ty<void>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<void>());
+
+    ty<void>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<unknown>());
+    ty<void>().is(ty.satisfiedBy<never>());
+    ty<void>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<null>());
+    ty<void>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<object>());
+  }
+
+  // null
+  {
+    ty<any>().is(ty.satisfiedBy<null>());
+    ty<unknown>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<null>());
+    ty<null>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<null>());
+
+    ty<null>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<unknown>());
+    ty<null>().is(ty.satisfiedBy<never>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<void>());
+    ty<null>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<object>());
+  }
+
+  // undefined
+  {
+    ty<any>().is(ty.satisfiedBy<undefined>());
+    ty<unknown>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<undefined>());
+    ty<void>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<undefined>());
+    ty<undefined>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<undefined>());
+
+    ty<undefined>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<unknown>());
+    ty<undefined>().is(ty.satisfiedBy<never>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<null>());
+    ty<undefined>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<object>());
+  }
+
+  // Non-nullable primitives
+  {
+    ty<any>().is(ty.satisfiedBy<$.Value>());
+    ty<unknown>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<$.Value>());
+    ty<$.Value>().is(ty.satisfiedBy<$.Value>());
+    ty<{}>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<$.Value>());
+
+    ty<$.Value>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<unknown>());
+    ty<$.Value>().is(ty.satisfiedBy<never>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<undefined>());
+    ty<$.Value>().is(ty.satisfiedBy<$.Value>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<object>());
+  }
+
+  // {}
+  {
+    ty<any>().is(ty.satisfiedBy<{}>());
+    ty<unknown>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<{}>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<{}>());
+    ty<{}>().is(ty.satisfiedBy<{}>());
+    ty<object>().is(ty.satisfiedBy<{}>());
+
+    ty<{}>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<unknown>());
+    ty<{}>().is(ty.satisfiedBy<never>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<{}>().is(ty.satisfiedBy<undefined>());
+    ty<{}>().is(ty.satisfiedBy<$.Value>());
+    ty<{}>().is(ty.satisfiedBy<{}>());
+    ty<{}>().is(ty.satisfiedBy<object>());
+  }
+
+  // object
+  {
+    ty<any>().is(ty.satisfiedBy<object>());
+    ty<unknown>().is(ty.satisfiedBy<object>());
+    // @ts-expect-error
+    ty<never>().is(ty.satisfiedBy<object>());
+    // @ts-expect-error
+    ty<void>().is(ty.satisfiedBy<object>());
+    // @ts-expect-error
+    ty<null>().is(ty.satisfiedBy<object>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.satisfiedBy<object>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.satisfiedBy<object>());
+    ty<{}>().is(ty.satisfiedBy<object>());
+    ty<object>().is(ty.satisfiedBy<object>());
+
+    ty<object>().is(ty.satisfiedBy<any>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<unknown>());
+    ty<object>().is(ty.satisfiedBy<never>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<void>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<null>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<undefined>());
+    // @ts-expect-error
+    ty<object>().is(ty.satisfiedBy<$.Value>());
+    ty<object>().is(ty.satisfiedBy<{}>());
+    ty<object>().is(ty.satisfiedBy<object>());
+  }
+
+  // Union
+  {
+    ty<string | undefined>().is(ty.satisfiedBy<string>());
+    ty<string | number | undefined>().is(ty.satisfiedBy<string | undefined>());
+    // @ts-expect-error
+    ty<number | undefined>().is(ty.satisfiedBy<string>());
+    // @ts-expect-error
+    ty<string>().is(ty.satisfiedBy<string | number>());
+  }
+}
+
 // ty.extends
 {
   // any
@@ -763,4 +1063,322 @@ import { ty } from "./index.ts";
     // @ts-expect-error
     ty<string | number>().is(ty.extends<string>());
   }
+}
+
+// ty.extendedBy
+{
+  // any
+  {
+    ty<any>().is(ty.extendedBy<any>());
+    ty<unknown>().is(ty.extendedBy<any>());
+    ty<never>().is(ty.extendedBy<any>());
+    ty<void>().is(ty.extendedBy<any>());
+    ty<null>().is(ty.extendedBy<any>());
+    ty<undefined>().is(ty.extendedBy<any>());
+    ty<$.Value>().is(ty.extendedBy<any>());
+    ty<{}>().is(ty.extendedBy<any>());
+    ty<object>().is(ty.extendedBy<any>());
+
+    ty<any>().is(ty.extendedBy<any>());
+    ty<any>().is(ty.extendedBy<unknown>());
+    ty<any>().is(ty.extendedBy<never>());
+    ty<any>().is(ty.extendedBy<void>());
+    ty<any>().is(ty.extendedBy<null>());
+    ty<any>().is(ty.extendedBy<undefined>());
+    ty<any>().is(ty.extendedBy<$.Value>());
+    ty<any>().is(ty.extendedBy<{}>());
+    ty<any>().is(ty.extendedBy<object>());
+  }
+
+  // unknown
+  {
+    ty<any>().is(ty.extendedBy<unknown>());
+    ty<unknown>().is(ty.extendedBy<unknown>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<unknown>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<unknown>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<unknown>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<unknown>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<unknown>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<unknown>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<unknown>());
+
+    ty<unknown>().is(ty.extendedBy<any>());
+    ty<unknown>().is(ty.extendedBy<unknown>());
+    ty<unknown>().is(ty.extendedBy<never>());
+    ty<unknown>().is(ty.extendedBy<void>());
+    ty<unknown>().is(ty.extendedBy<null>());
+    ty<unknown>().is(ty.extendedBy<undefined>());
+    ty<unknown>().is(ty.extendedBy<$.Value>());
+    ty<unknown>().is(ty.extendedBy<{}>());
+    ty<unknown>().is(ty.extendedBy<object>());
+  }
+
+  // never
+  {
+    ty<any>().is(ty.extendedBy<never>());
+    ty<unknown>().is(ty.extendedBy<never>());
+    ty<never>().is(ty.extendedBy<never>());
+    ty<void>().is(ty.extendedBy<never>());
+    ty<null>().is(ty.extendedBy<never>());
+    ty<undefined>().is(ty.extendedBy<never>());
+    ty<$.Value>().is(ty.extendedBy<never>());
+    ty<{}>().is(ty.extendedBy<never>());
+    ty<object>().is(ty.extendedBy<never>());
+
+    ty<never>().is(ty.extendedBy<any>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<unknown>());
+    ty<never>().is(ty.extendedBy<never>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<object>());
+  }
+
+  // void
+  {
+    ty<any>().is(ty.extendedBy<void>());
+    ty<unknown>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<void>());
+    ty<void>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<void>());
+
+    ty<void>().is(ty.extendedBy<any>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<unknown>());
+    ty<void>().is(ty.extendedBy<never>());
+    ty<void>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<null>());
+    ty<void>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<object>());
+  }
+
+  // null
+  {
+    ty<any>().is(ty.extendedBy<null>());
+    ty<unknown>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<null>());
+    ty<null>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<null>());
+
+    ty<null>().is(ty.extendedBy<any>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<unknown>());
+    ty<null>().is(ty.extendedBy<never>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<void>());
+    ty<null>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<object>());
+  }
+
+  // undefined
+  {
+    ty<any>().is(ty.extendedBy<undefined>());
+    ty<unknown>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<undefined>());
+    ty<void>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<undefined>());
+    ty<undefined>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<undefined>());
+
+    ty<undefined>().is(ty.extendedBy<any>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<unknown>());
+    ty<undefined>().is(ty.extendedBy<never>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<null>());
+    ty<undefined>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<object>());
+  }
+
+  // Non-nullable primitives
+  {
+    ty<any>().is(ty.extendedBy<$.Value>());
+    ty<unknown>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<$.Value>());
+    ty<$.Value>().is(ty.extendedBy<$.Value>());
+    ty<{}>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<$.Value>());
+
+    ty<$.Value>().is(ty.extendedBy<any>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<unknown>());
+    ty<$.Value>().is(ty.extendedBy<never>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<undefined>());
+    ty<$.Value>().is(ty.extendedBy<$.Value>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<object>());
+  }
+
+  // {}
+  {
+    ty<any>().is(ty.extendedBy<{}>());
+    ty<unknown>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<{}>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<{}>());
+    ty<{}>().is(ty.extendedBy<{}>());
+    ty<object>().is(ty.extendedBy<{}>());
+
+    ty<{}>().is(ty.extendedBy<any>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<unknown>());
+    ty<{}>().is(ty.extendedBy<never>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<{}>().is(ty.extendedBy<undefined>());
+    ty<{}>().is(ty.extendedBy<$.Value>());
+    ty<{}>().is(ty.extendedBy<{}>());
+    ty<{}>().is(ty.extendedBy<object>());
+  }
+
+  // object
+  {
+    ty<any>().is(ty.extendedBy<object>());
+    ty<unknown>().is(ty.extendedBy<object>());
+    // @ts-expect-error
+    ty<never>().is(ty.extendedBy<object>());
+    // @ts-expect-error
+    ty<void>().is(ty.extendedBy<object>());
+    // @ts-expect-error
+    ty<null>().is(ty.extendedBy<object>());
+    // @ts-expect-error
+    ty<undefined>().is(ty.extendedBy<object>());
+    // @ts-expect-error
+    ty<$.Value>().is(ty.extendedBy<object>());
+    ty<{}>().is(ty.extendedBy<object>());
+    ty<object>().is(ty.extendedBy<object>());
+
+    ty<object>().is(ty.extendedBy<any>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<unknown>());
+    ty<object>().is(ty.extendedBy<never>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<void>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<null>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<undefined>());
+    // @ts-expect-error
+    ty<object>().is(ty.extendedBy<$.Value>());
+    ty<object>().is(ty.extendedBy<{}>());
+    ty<object>().is(ty.extendedBy<object>());
+  }
+
+  // Union
+  {
+    ty<string | undefined>().is(ty.extendedBy<string>());
+    ty<string | number | undefined>().is(ty.extendedBy<string | undefined>());
+    // @ts-expect-error
+    ty<number | undefined>().is(ty.extendedBy<string>());
+    // @ts-expect-error
+    ty<string>().is(ty.extendedBy<string | number>());
+  }
+}
+
+// ty#is.undefined
+{
+  ty<undefined>().is.undefined();
+
+  // @ts-expect-error
+  ty<any>().is.undefined();
+  // @ts-expect-error
+  ty<unknown>().is.undefined();
+  // @ts-expect-error
+  ty<never>().is.undefined();
+  // @ts-expect-error
+  ty<string>().is.undefined();
+  // @ts-expect-error
+  ty<void>().is.undefined();
+  // @ts-expect-error
+  ty<null>().is.undefined();
+  // @ts-expect-error
+  ty<string | undefined>().is.undefined();
 }

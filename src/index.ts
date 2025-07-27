@@ -72,7 +72,9 @@ namespace Tyst {
         RawType,
         Position extends Signature.Position
       > = $.Is.Any<RawType> extends true
-        ? Supertype<any, Position> | Supertype<never, Position>
+        ? // As any doesn't satisfy never, but any extends never, we have to add
+          // `never` supertype to union to make the matcher work correctly.
+          Supertype<any, Position> | Supertype<never, Position>
         : Supertype<RawType, Position>;
     }
 
@@ -107,37 +109,14 @@ namespace Tyst {
       ? never
       : Type;
 
-    type Test1 = Type.Raw<Tyst.Type<any>>;
-
-    export type Supertype<RawType> = RawType;
-
     export type Any = $.Branded<"any", typeof any>;
     declare const any: unique symbol;
-
-    export namespace Any {
-      export type Supertype =
-        | Signature<any, "expected">
-        | Signature<unknown, "expected">;
-    }
 
     export type Unknown = $.Branded<"unknown", typeof unknown>;
     declare const unknown: unique symbol;
 
-    export namespace Unknown {
-      // export type Narrows = Type.
-      type Test = $.Is.Unknown<{} | null | undefined>;
-
-      export type Supertype =
-        | Signature<any, "expected">
-        | Signature<unknown, "expected">;
-    }
-
     export type Never = $.Branded<"never", typeof never>;
     declare const never: unique symbol;
-
-    export namespace Never {
-      export type Supertype = Signature<any, "expected">;
-    }
   }
 
   export interface Is<Type> {

@@ -15,16 +15,21 @@ interface Ty {
 
   exactly<RawType>(): Tyst.Signature<Tyst.Type<RawType>, "expected">;
 
-  satisfies<RawType>(): Tyst.Signature.Supertype<RawType, "expected">;
+  satisfies<RawType>(
+    type?: RawType
+  ): Tyst.Signature.Supertype<RawType, "expected">;
 
-  satisfiedBy<RawType>(): Tyst.Signature.Subtype<RawType, "expected">;
+  satisfiedBy<RawType>(
+    type?: RawType
+  ): Tyst.Signature.Subtype<RawType, "expected">;
 
-  extends<RawType>(): Tyst.Signature.DistributiveSupertype<RawType, "expected">;
+  extends<RawType>(
+    type?: RawType
+  ): Tyst.Signature.DistributiveSupertype<RawType, "expected">;
 
-  extendedBy<RawType>(): Tyst.Signature.DistributiveSubtype<
-    RawType,
-    "expected"
-  >;
+  extendedBy<RawType>(
+    type?: RawType
+  ): Tyst.Signature.DistributiveSubtype<RawType, "expected">;
 }
 
 namespace Tyst {

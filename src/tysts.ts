@@ -1,7 +1,7 @@
 import type { $ } from "tdollar";
 import { ty } from "./index.ts";
 
-// API
+//#region API
 {
   // Basic
   {
@@ -43,8 +43,9 @@ import { ty } from "./index.ts";
     });
   }
 }
+//#endregion
 
-// ty.is
+//#region ty.is
 {
   // any
   {
@@ -166,8 +167,9 @@ import { ty } from "./index.ts";
     variance = ty<string>();
   }
 }
+//#endregion
 
-// ty.satisfies
+//#region ty.satisfies
 {
   // any
   {
@@ -191,6 +193,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.satisfies<any>());
     ty<{}>().is(ty.satisfies<any>());
     ty<object>().is(ty.satisfies<any>());
+
+    let variance = ty.satisfies<any>();
+    variance = ty.satisfies({} as any);
   }
 
   // unknown
@@ -221,6 +226,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.satisfies<unknown>());
     ty<{}>().is(ty.satisfies<unknown>());
     ty<object>().is(ty.satisfies<unknown>());
+
+    let variance = ty.satisfies<unknown>();
+    variance = ty.satisfies({} as unknown);
   }
 
   // never
@@ -252,6 +260,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.satisfies<never>());
     // @ts-expect-error
     ty<object>().is(ty.satisfies<never>());
+
+    let variance = ty.satisfies<never>();
+    variance = ty.satisfies({} as never);
   }
 
   // void
@@ -286,6 +297,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.satisfies<void>());
     // @ts-expect-error
     ty<object>().is(ty.satisfies<void>());
+
+    let variance = ty.satisfies<void>();
+    variance = ty.satisfies(void 0 as void);
   }
 
   // null
@@ -321,6 +335,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.satisfies<null>());
     // @ts-expect-error
     ty<object>().is(ty.satisfies<null>());
+
+    let variance = ty.satisfies<null>();
+    variance = ty.satisfies(null);
   }
 
   // undefined
@@ -355,6 +372,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.satisfies<undefined>());
     // @ts-expect-error
     ty<object>().is(ty.satisfies<undefined>());
+
+    let variance = ty.satisfies<undefined>();
+    variance = ty.satisfies(undefined);
   }
 
   // Non-nullable primitives
@@ -389,6 +409,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.satisfies<$.Value>());
     // @ts-expect-error
     ty<object>().is(ty.satisfies<$.Value>());
+
+    let variance = ty.satisfies<$.Value>();
+    variance = ty.satisfies({} as $.Value);
   }
 
   // {}
@@ -421,6 +444,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.satisfies<{}>());
     ty<{}>().is(ty.satisfies<{}>());
     ty<object>().is(ty.satisfies<{}>());
+
+    let variance = ty.satisfies<{}>();
+    variance = ty.satisfies({} as {});
   }
 
   // object
@@ -454,6 +480,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.satisfies<object>());
     ty<{}>().is(ty.satisfies<object>());
     ty<object>().is(ty.satisfies<object>());
+
+    let variance = ty.satisfies<object>();
+    variance = ty.satisfies({} as object);
   }
 
   // Union
@@ -466,8 +495,9 @@ import { ty } from "./index.ts";
     ty<string | number>().is(ty.satisfies<string>());
   }
 }
+//#endregion
 
-// ty.satisfiedBy
+//#region ty.satisfiedBy
 {
   // any
   {
@@ -491,6 +521,9 @@ import { ty } from "./index.ts";
     ty<any>().is(ty.satisfiedBy<$.Value>());
     ty<any>().is(ty.satisfiedBy<{}>());
     ty<any>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<any>();
+    variance = ty.satisfiedBy({} as any);
   }
 
   // unknown
@@ -521,6 +554,9 @@ import { ty } from "./index.ts";
     ty<unknown>().is(ty.satisfiedBy<$.Value>());
     ty<unknown>().is(ty.satisfiedBy<{}>());
     ty<unknown>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<unknown>();
+    variance = ty.satisfiedBy({} as unknown);
   }
 
   // never
@@ -552,6 +588,9 @@ import { ty } from "./index.ts";
     ty<never>().is(ty.satisfiedBy<{}>());
     // @ts-expect-error
     ty<never>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<never>();
+    variance = ty.satisfiedBy({} as never);
   }
 
   // void
@@ -586,6 +625,9 @@ import { ty } from "./index.ts";
     ty<void>().is(ty.satisfiedBy<{}>());
     // @ts-expect-error
     ty<void>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<void>();
+    variance = ty.satisfiedBy(void 0 as void);
   }
 
   // null
@@ -621,6 +663,9 @@ import { ty } from "./index.ts";
     ty<null>().is(ty.satisfiedBy<{}>());
     // @ts-expect-error
     ty<null>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<null>();
+    variance = ty.satisfiedBy(null);
   }
 
   // undefined
@@ -655,6 +700,9 @@ import { ty } from "./index.ts";
     ty<undefined>().is(ty.satisfiedBy<{}>());
     // @ts-expect-error
     ty<undefined>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<undefined>();
+    variance = ty.satisfiedBy(undefined);
   }
 
   // Non-nullable primitives
@@ -689,6 +737,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.satisfiedBy<{}>());
     // @ts-expect-error
     ty<$.Value>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<$.Value>();
+    variance = ty.satisfiedBy({} as $.Value);
   }
 
   // {}
@@ -721,6 +772,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.satisfiedBy<$.Value>());
     ty<{}>().is(ty.satisfiedBy<{}>());
     ty<{}>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<{}>();
+    variance = ty.satisfiedBy({} as {});
   }
 
   // object
@@ -754,6 +808,9 @@ import { ty } from "./index.ts";
     ty<object>().is(ty.satisfiedBy<$.Value>());
     ty<object>().is(ty.satisfiedBy<{}>());
     ty<object>().is(ty.satisfiedBy<object>());
+
+    let variance = ty.satisfiedBy<object>();
+    variance = ty.satisfiedBy({} as object);
   }
 
   // Union
@@ -766,8 +823,9 @@ import { ty } from "./index.ts";
     ty<string>().is(ty.satisfiedBy<string | number>());
   }
 }
+//#endregion
 
-// ty.extends
+//#region ty.extends
 {
   // any
   {
@@ -790,6 +848,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.extends<any>());
     ty<{}>().is(ty.extends<any>());
     ty<object>().is(ty.extends<any>());
+
+    let variance = ty.extends<any>();
+    variance = ty.extends({} as any);
   }
 
   // unknown
@@ -820,6 +881,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.extends<unknown>());
     ty<{}>().is(ty.extends<unknown>());
     ty<object>().is(ty.extends<unknown>());
+
+    let variance = ty.extends<unknown>();
+    variance = ty.extends({} as unknown);
   }
 
   // never
@@ -850,6 +914,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.extends<never>());
     // @ts-expect-error
     ty<object>().is(ty.extends<never>());
+
+    let variance = ty.extends<never>();
+    variance = ty.extends({} as never);
   }
 
   // void
@@ -884,6 +951,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.extends<void>());
     // @ts-expect-error
     ty<object>().is(ty.extends<void>());
+
+    let variance = ty.extends<void>();
+    variance = ty.extends(void 0 as void);
   }
 
   // null
@@ -919,6 +989,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.extends<null>());
     // @ts-expect-error
     ty<object>().is(ty.extends<null>());
+
+    let variance = ty.extends<null>();
+    variance = ty.extends(null);
   }
 
   // undefined
@@ -953,6 +1026,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.extends<undefined>());
     // @ts-expect-error
     ty<object>().is(ty.extends<undefined>());
+
+    let variance = ty.extends<undefined>();
+    variance = ty.extends(undefined);
   }
 
   // Non-nullable primitives
@@ -987,6 +1063,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.extends<$.Value>());
     // @ts-expect-error
     ty<object>().is(ty.extends<$.Value>());
+
+    let variance = ty.extends<$.Value>();
+    variance = ty.extends({} as $.Value);
   }
 
   // {}
@@ -1019,6 +1098,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.extends<{}>());
     ty<{}>().is(ty.extends<{}>());
     ty<object>().is(ty.extends<{}>());
+
+    let variance = ty.extends<{}>();
+    variance = ty.extends({} as {});
   }
 
   // object
@@ -1052,6 +1134,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.extends<object>());
     ty<{}>().is(ty.extends<object>());
     ty<object>().is(ty.extends<object>());
+
+    let variance = ty.extends<object>();
+    variance = ty.extends({} as object);
   }
 
   // Union
@@ -1064,8 +1149,9 @@ import { ty } from "./index.ts";
     ty<string | number>().is(ty.extends<string>());
   }
 }
+//#endregion
 
-// ty.extendedBy
+//#region ty.extendedBy
 {
   // any
   {
@@ -1088,6 +1174,9 @@ import { ty } from "./index.ts";
     ty<any>().is(ty.extendedBy<$.Value>());
     ty<any>().is(ty.extendedBy<{}>());
     ty<any>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<any>();
+    variance = ty.extendedBy({} as any);
   }
 
   // unknown
@@ -1118,6 +1207,9 @@ import { ty } from "./index.ts";
     ty<unknown>().is(ty.extendedBy<$.Value>());
     ty<unknown>().is(ty.extendedBy<{}>());
     ty<unknown>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<unknown>();
+    variance = ty.extendedBy({} as unknown);
   }
 
   // never
@@ -1148,6 +1240,9 @@ import { ty } from "./index.ts";
     ty<never>().is(ty.extendedBy<{}>());
     // @ts-expect-error
     ty<never>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<never>();
+    variance = ty.extendedBy({} as never);
   }
 
   // void
@@ -1182,6 +1277,9 @@ import { ty } from "./index.ts";
     ty<void>().is(ty.extendedBy<{}>());
     // @ts-expect-error
     ty<void>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<void>();
+    variance = ty.extendedBy(void 0 as void);
   }
 
   // null
@@ -1217,6 +1315,9 @@ import { ty } from "./index.ts";
     ty<null>().is(ty.extendedBy<{}>());
     // @ts-expect-error
     ty<null>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<null>();
+    variance = ty.extendedBy(null);
   }
 
   // undefined
@@ -1251,6 +1352,9 @@ import { ty } from "./index.ts";
     ty<undefined>().is(ty.extendedBy<{}>());
     // @ts-expect-error
     ty<undefined>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<undefined>();
+    variance = ty.extendedBy(undefined);
   }
 
   // Non-nullable primitives
@@ -1285,6 +1389,9 @@ import { ty } from "./index.ts";
     ty<$.Value>().is(ty.extendedBy<{}>());
     // @ts-expect-error
     ty<$.Value>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<$.Value>();
+    variance = ty.extendedBy({} as $.Value);
   }
 
   // {}
@@ -1317,6 +1424,9 @@ import { ty } from "./index.ts";
     ty<{}>().is(ty.extendedBy<$.Value>());
     ty<{}>().is(ty.extendedBy<{}>());
     ty<{}>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<{}>();
+    variance = ty.extendedBy({} as {});
   }
 
   // object
@@ -1350,6 +1460,9 @@ import { ty } from "./index.ts";
     ty<object>().is(ty.extendedBy<$.Value>());
     ty<object>().is(ty.extendedBy<{}>());
     ty<object>().is(ty.extendedBy<object>());
+
+    let variance = ty.extendedBy<object>();
+    variance = ty.extendedBy({} as object);
   }
 
   // Union
@@ -1362,8 +1475,9 @@ import { ty } from "./index.ts";
     ty<string>().is(ty.extendedBy<string | number>());
   }
 }
+//#endregion
 
-// ty#is.undefined
+//#region ty#is.undefined
 {
   ty<undefined>().is.undefined();
 
@@ -1382,3 +1496,4 @@ import { ty } from "./index.ts";
   // @ts-expect-error
   ty<string | undefined>().is.undefined();
 }
+//#endregion

@@ -126,6 +126,25 @@ namespace Tyst {
         | Signature.Subtype<Tyst.Type.Raw<Type>, "received">
         | Signature.Supertype.Arg<Tyst.Type.Raw<Type>, "received">
     ): Builder.Signature<Type>;
+
+    undefined: Is.Undefined<Type>;
+  }
+
+  export namespace Is {
+    export type Undefined<Type> = $.Is.Undefined<Type> extends true
+      ? Undefined.Fn<Type>
+      : $.Transparent<Mismatch<undefined, Type>>;
+
+    export namespace Undefined {
+      export interface Fn<Type> {
+        (): Builder.Signature<Type>;
+      }
+    }
+  }
+
+  export interface Mismatch<Expected, Received> {
+    expected: Expected;
+    received: Received;
   }
 }
 
@@ -174,7 +193,7 @@ namespace Tyst {
     }
   }
 
-  // ty/ty.exactly
+  // ty.exactly
   {
     // any
     {
@@ -707,22 +726,33 @@ namespace Tyst {
     {
       ty<void>().is(ty.extends<any>());
       ty<void>().is(ty.extends<unknown>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<never>());
       ty<void>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<{}>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<object>());
 
       ty<any>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<unknown>().is(ty.extends<void>());
       ty<never>().is(ty.extends<void>());
       ty<void>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<void>());
       ty<undefined>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<{}>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<void>());
     }
 
@@ -730,22 +760,34 @@ namespace Tyst {
     {
       ty<null>().is(ty.extends<any>());
       ty<null>().is(ty.extends<unknown>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<never>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<void>());
       ty<null>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<{}>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<object>());
 
       ty<any>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<unknown>().is(ty.extends<null>());
       ty<never>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<null>());
       ty<null>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<{}>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<null>());
     }
 
@@ -753,22 +795,33 @@ namespace Tyst {
     {
       ty<undefined>().is(ty.extends<any>());
       ty<undefined>().is(ty.extends<unknown>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<never>());
       ty<undefined>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<null>());
       ty<undefined>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<{}>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<object>());
 
       ty<any>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<unknown>().is(ty.extends<undefined>());
       ty<never>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<undefined>());
       ty<undefined>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<{}>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<undefined>());
     }
 
@@ -776,22 +829,33 @@ namespace Tyst {
     {
       ty<$.Value>().is(ty.extends<any>());
       ty<$.Value>().is(ty.extends<unknown>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<never>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<undefined>());
       ty<$.Value>().is(ty.extends<$.Value>());
       ty<$.Value>().is(ty.extends<{}>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<object>());
 
       ty<any>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<unknown>().is(ty.extends<$.Value>());
       ty<never>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<$.Value>());
       ty<$.Value>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<{}>().is(ty.extends<$.Value>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<$.Value>());
     }
 
@@ -831,20 +895,30 @@ namespace Tyst {
     {
       ty<object>().is(ty.extends<any>());
       ty<object>().is(ty.extends<unknown>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<never>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<void>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<null>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<undefined>());
+      // @ts-expect-error
       ty<object>().is(ty.extends<$.Value>());
       ty<object>().is(ty.extends<{}>());
       ty<object>().is(ty.extends<object>());
 
       ty<any>().is(ty.extends<object>());
+      // @ts-expect-error
       ty<unknown>().is(ty.extends<object>());
       ty<never>().is(ty.extends<object>());
+      // @ts-expect-error
       ty<void>().is(ty.extends<object>());
+      // @ts-expect-error
       ty<null>().is(ty.extends<object>());
+      // @ts-expect-error
       ty<undefined>().is(ty.extends<object>());
+      // @ts-expect-error
       ty<$.Value>().is(ty.extends<object>());
       ty<{}>().is(ty.extends<object>());
       ty<object>().is(ty.extends<object>());
@@ -853,8 +927,11 @@ namespace Tyst {
     // Union
     {
       ty<string>().is(ty.extends<string | undefined>());
+      ty<string | undefined>().is(ty.extends<string | number | undefined>());
       // @ts-expect-error
       ty<string>().is(ty.extends<number | undefined>());
+      // @ts-expect-error
+      ty<string | number>().is(ty.extends<string>());
     }
 
     // Alias
@@ -866,5 +943,25 @@ namespace Tyst {
       // @ts-expect-error
       ty<string | number>().is(ty.narrows<string>());
     }
+  }
+
+  // ty#is.undefined
+  {
+    ty<undefined>().is.undefined();
+
+    // @ts-expect-error
+    ty<any>().is.undefined();
+    // @ts-expect-error
+    ty<unknown>().is.undefined();
+    // @ts-expect-error
+    ty<never>().is.undefined();
+    // @ts-expect-error
+    ty<string>().is.undefined();
+    // @ts-expect-error
+    ty<void>().is.undefined();
+    // @ts-expect-error
+    ty<null>().is.undefined();
+    // @ts-expect-error
+    ty<string | undefined>().is.undefined();
   }
 }

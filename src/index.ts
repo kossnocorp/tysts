@@ -1,38 +1,46 @@
 import type { $ } from "tdollar";
 
 // TODO: Replicate the structure, so that it works in runtime
-export const ty = {} as Ty;
+export const ty = {} as Tyst.Ty;
 
-interface Ty {
-  <RawType>(
-    value: RawType,
-    callback?: Tyst.Builder.Callback<RawType>
-  ): Tyst.Builder.Signature<Tyst.Type<RawType>>;
+export namespace Tyst {
+  //#region Ty
 
-  <RawType>(callback?: Tyst.Builder.Callback<RawType>): Tyst.Builder.Signature<
-    Tyst.Type<RawType>
-  >;
+  export interface Ty {
+    <RawType>(
+      value: RawType,
+      callback?: Tyst.Builder.Callback<RawType>
+    ): Tyst.Builder.Signature<Tyst.Type<RawType>>;
 
-  exactly<RawType>(): Tyst.Signature<Tyst.Type<RawType>, "expected">;
+    <RawType>(
+      callback?: Tyst.Builder.Callback<RawType>
+    ): Tyst.Builder.Signature<Tyst.Type<RawType>>;
 
-  satisfies<RawType>(
-    type?: RawType
-  ): Tyst.Signature.Supertype<RawType, "expected">;
+    exactly<RawType>(): Tyst.Signature<Tyst.Type<RawType>, "expected">;
 
-  satisfiedBy<RawType>(
-    type?: RawType
-  ): Tyst.Signature.Subtype<RawType, "expected">;
+    satisfies<RawType>(
+      type?: RawType
+    ): Tyst.Signature.Supertype<RawType, "expected">;
 
-  extends<RawType>(
-    type?: RawType
-  ): Tyst.Signature.DistributiveSupertype<RawType, "expected">;
+    satisfiedBy<RawType>(
+      type?: RawType
+    ): Tyst.Signature.Subtype<RawType, "expected">;
 
-  extendedBy<RawType>(
-    type?: RawType
-  ): Tyst.Signature.DistributiveSubtype<RawType, "expected">;
-}
+    extends<RawType>(
+      type?: RawType
+    ): Tyst.Signature.DistributiveSupertype<RawType, "expected">;
 
-namespace Tyst {
+    extendedBy<RawType>(
+      type?: RawType
+    ): Tyst.Signature.DistributiveSubtype<RawType, "expected">;
+
+    as<RawType>(): RawType;
+  }
+
+  //#endregion
+
+  //#region Builder
+
   export namespace Builder {
     export interface Signature<
       Type,
@@ -45,6 +53,8 @@ namespace Tyst {
       ($: Builder.Signature<Type, "received">): void;
     }
   }
+
+  //#endregion
 
   //#region Signature
 
@@ -207,19 +217,27 @@ namespace Tyst {
   export namespace Is {
     export type Undefined<Type> = $.Is.Undefined<Type> extends true
       ? Undefined.Fn<Type>
-      : $.Transparent<Mismatch<undefined, Type>>;
+      : Mismatch<undefined, Type>;
 
     export namespace Undefined {
       export interface Fn<Type> {
         (): Builder.Signature<Type>;
       }
     }
+
+    export type Mismatch<Expected, Received> = $.Transparent<{
+      expected: Expected;
+      received: Received;
+    }>;
   }
 
   //#endregion
 
-  export interface Mismatch<Expected, Received> {
-    expected: Expected;
-    received: Received;
+  //#region New
+
+  export interface New {
+    <RawType>(): RawType;
   }
+
+  //#endregion
 }

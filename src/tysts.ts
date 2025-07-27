@@ -1497,3 +1497,25 @@ import { ty } from "./index.ts";
   ty<string | undefined>().is.undefined();
 }
 //#endregion
+
+//#region ty.as
+{
+  const null_ = ty.as<null>();
+
+  ty(null_).is(ty.satisfies<any>());
+  ty(null_).is(ty.satisfies<unknown>());
+  // @ts-expect-error
+  ty(null_).is(ty.satisfies<never>());
+  // @ts-expect-error
+  ty(null_).is(ty.satisfies<void>());
+  ty(null_).is(ty.satisfies<null>());
+  // @ts-expect-error
+  ty(null_).is(ty.satisfies<undefined>());
+  // @ts-expect-error
+  ty(null_).is(ty.satisfies<$.Value>());
+  // @ts-expect-error
+  ty(null_).is(ty.satisfies<{}>());
+  // @ts-expect-error
+  ty(null_).is(ty.satisfies<object>());
+}
+//#endregion

@@ -47,8 +47,6 @@ export namespace Tyst {
       Position extends Tyst.Signature.Position = "expected"
     > extends Tyst.Signature<Type, Position> {
       is: Tyst.Is<Type>;
-
-      isnt: Tyst.Isnt<Type>;
     }
 
     export interface Callback<Type> {
@@ -224,6 +222,8 @@ export namespace Tyst {
   export interface Is<Type> {
     (signature: Signature.Arg<Type>): Builder.Signature<Type>;
 
+    not: Tyst.IsNot<Type>;
+
     undefined: Is.Undefined<Type>;
   }
 
@@ -238,17 +238,17 @@ export namespace Tyst {
 
   //#endregion
 
-  //#region Isnt
+  //#region IsNot
 
-  export interface Isnt<Type> {
+  export interface IsNot<Type> {
     <Arg>(
-      signature: Arg extends Signature.Arg<Type> ? Isnt.Error<Type, Arg> : Arg
+      signature: Arg extends Signature.Arg<Type> ? IsNot.Error<Type, Arg> : Arg
     ): Builder.Signature<Type>;
 
-    undefined: Isnt.Undefined<Type>;
+    undefined: IsNot.Undefined<Type>;
   }
 
-  export namespace Isnt {
+  export namespace IsNot {
     export type Error<
       Received,
       Signature extends Signature.Arg<Received>

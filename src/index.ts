@@ -16,21 +16,19 @@ export namespace Tyst {
       callback?: Tyst.Builder.Callback<RawType>
     ): Tyst.Builder.Signature<Tyst.Type<RawType>>;
 
-    exactly<RawType>(): Tyst.Signature<Tyst.Type<RawType>, "expected">;
-
-    satisfies<RawType>(
+    assignableTo<RawType>(
       type?: RawType
     ): Tyst.Signature.Supertype<RawType, "expected">;
 
-    satisfiedBy<RawType>(
+    assignableFrom<RawType>(
       type?: RawType
     ): Tyst.Signature.Subtype<RawType, "expected">;
 
-    extends<RawType>(
+    subtypeOf<RawType>(
       type?: RawType
     ): Tyst.Signature.DistributiveSupertype<RawType, "expected">;
 
-    extendedBy<RawType>(
+    supertypeOf<RawType>(
       type?: RawType
     ): Tyst.Signature.DistributiveSubtype<RawType, "expected">;
 
@@ -222,7 +220,7 @@ export namespace Tyst {
   export interface Is<Type> {
     (signature: Signature.Arg<Type>): Builder.Signature<Type>;
 
-    not: Tyst.IsNot<Type>;
+    not: IsNot<Type>;
 
     undefined: Is.Undefined<Type>;
   }
@@ -257,25 +255,12 @@ export namespace Tyst {
           expected: ["not to be exactly", Expected];
           received: Type.Raw<Received>;
         }
-      : Signature extends Signature.Supertype<
-          Tyst.Type.Raw<infer Expected>,
-          any
-        >
-      ? {
-          expected: ["to not satisfy", Expected];
-          received: Type.Raw<Received>;
-        }
-      : Signature extends Signature.Subtype<Tyst.Type.Raw<infer Expected>, any>
-      ? {
-          expected: ["to not be satisfied by", Expected];
-          received: Type.Raw<Received>;
-        }
       : Signature extends Signature.DistributiveSupertype.Arg<
           Tyst.Type.Raw<infer Expected>,
           any
         >
       ? {
-          expected: ["to not extend", Expected];
+          expected: ["not to be a subtype of", Expected];
           received: Type.Raw<Received>;
         }
       : Signature extends Signature.DistributiveSubtype.Arg<
@@ -283,7 +268,20 @@ export namespace Tyst {
           any
         >
       ? {
-          expected: ["to not be extended by", Expected];
+          expected: ["not to be a supertype of", Expected];
+          received: Type.Raw<Received>;
+        }
+      : Signature extends Signature.Supertype<
+          Tyst.Type.Raw<infer Expected>,
+          any
+        >
+      ? {
+          expected: ["not to be assignable to", Expected];
+          received: Type.Raw<Received>;
+        }
+      : Signature extends Signature.Subtype<Tyst.Type.Raw<infer Expected>, any>
+      ? {
+          expected: ["not to be assignable from", Expected];
           received: Type.Raw<Received>;
         }
       : never;

@@ -47,6 +47,8 @@ export namespace Tyst {
       Position extends Tyst.Signature.Position = "expected"
     > extends Tyst.Signature<Type, Position> {
       is: Tyst.Is<Type>;
+
+      isnt: Tyst.Isnt<Type>;
     }
 
     export interface Callback<Type> {
@@ -73,6 +75,17 @@ export namespace Tyst {
 
   export namespace Signature {
     export type Position = "expected" | "received";
+
+    //#region Arg
+
+    export type Arg<Type> =
+      | Signature<Type, "received">
+      | Signature.Supertype<Tyst.Type.Raw<Type>, "received">
+      | Signature.Subtype<Tyst.Type.Raw<Type>, "received">
+      | Signature.DistributiveSupertype.Arg<Tyst.Type.Raw<Type>, "received">
+      | Signature.DistributiveSubtype.Arg<Tyst.Type.Raw<Type>, "received">;
+
+    //#endregion
 
     //#region Supertype
 
@@ -202,41 +215,87 @@ export namespace Tyst {
   //#region Is
 
   export interface Is<Type> {
-    (
-      signature:
-        | Signature<Type, "received">
-        | Signature.Supertype<Tyst.Type.Raw<Type>, "received">
-        | Signature.Subtype<Tyst.Type.Raw<Type>, "received">
-        | Signature.DistributiveSupertype.Arg<Tyst.Type.Raw<Type>, "received">
-        | Signature.DistributiveSubtype.Arg<Tyst.Type.Raw<Type>, "received">
-    ): Builder.Signature<Type>;
+    (signature: Signature.Arg<Type>): Builder.Signature<Type>;
 
     undefined: Is.Undefined<Type>;
   }
 
   export namespace Is {
     export type Undefined<Type> = $.Is.Undefined<Type> extends true
-      ? Undefined.Fn<Type>
-      : Mismatch<undefined, Type>;
-
-    export namespace Undefined {
-      export interface Fn<Type> {
-        (): Builder.Signature<Type>;
-      }
-    }
-
-    export type Mismatch<Expected, Received> = $.Transparent<{
-      expected: Expected;
-      received: Received;
-    }>;
+      ? Match.Fn<Type>
+      : {
+          expected: undefined;
+          received: Type.Raw<Type>;
+        };
   }
 
   //#endregion
 
-  //#region New
+  //#region Isnt
 
-  export interface New {
-    <RawType>(): RawType;
+  export interface Isnt<Type> {
+    <Arg>(
+      signature: Arg extends Signature.Arg<Type> ? Isnt.Error<Type, Arg> : Arg
+    ): Builder.Signature<Type>;
+
+    undefined: Isnt.Undefined<Type>;
+  }
+
+  export namespace Isnt {
+    export type Error<
+      Received,
+      Signature extends Signature.Arg<Received>
+    > = Signature extends Tyst.Signature<infer Expected, any>
+      ? {
+          expected: ["not to be exactly", Expected];
+          received: Type.Raw<Received>;
+        }
+      : Signature extends Signature.Supertype<
+          Tyst.Type.Raw<infer Expected>,
+          any
+        >
+      ? {
+          expected: ["to not satisfy", Expected];
+          received: Type.Raw<Received>;
+        }
+      : Signature extends Signature.Subtype<Tyst.Type.Raw<infer Expected>, any>
+      ? {
+          expected: ["to not be satisfied by", Expected];
+          received: Type.Raw<Received>;
+        }
+      : Signature extends Signature.DistributiveSupertype.Arg<
+          Tyst.Type.Raw<infer Expected>,
+          any
+        >
+      ? {
+          expected: ["to not extend", Expected];
+          received: Type.Raw<Received>;
+        }
+      : Signature extends Signature.DistributiveSubtype.Arg<
+          Tyst.Type.Raw<infer Expected>,
+          any
+        >
+      ? {
+          expected: ["to not be extended by", Expected];
+          received: Type.Raw<Received>;
+        }
+      : never;
+
+    export type Undefined<Type> = $.Is.Undefined<Type> extends true
+      ? {
+          expected: undefined;
+          received: Type.Raw<Type>;
+        }
+      : Match.Fn<Type>;
+  }
+  //#endregion
+
+  //#region Match
+
+  export namespace Match {
+    export interface Fn<Type> {
+      (): Builder.Signature<Type>;
+    }
   }
 
   //#endregion

@@ -189,6 +189,8 @@ export namespace Tyst {
     ? Type.Unknown
     : $.Is.Never<RawType> extends true
     ? Type.Never
+    : $.Is.NonNullishValue<RawType> extends true
+    ? Type.NonNullishValue
     : RawType;
 
   export namespace Type {
@@ -198,6 +200,8 @@ export namespace Tyst {
       ? unknown
       : Type extends Type.Never
       ? never
+      : Type extends Type.NonNullishValue
+      ? {}
       : Type;
 
     export type Any = $.Branded<"any", typeof any>;
@@ -208,6 +212,9 @@ export namespace Tyst {
 
     export type Never = $.Branded<"never", typeof never>;
     declare const never: unique symbol;
+
+    export type NonNullishValue = $.Branded<"{}", typeof nonNullishValue>;
+    declare const nonNullishValue: unique symbol;
   }
 
   //#endregion
